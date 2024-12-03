@@ -52,17 +52,5 @@ namespace ECommerceNextjs.Services
         public async Task<AccountModel> getAccountDetails(string email) =>
             await _accountCollection.Find(x => x.emailAddress == email).FirstOrDefaultAsync();
 
-        public async Task<Boolean> checkAuthToken(string token)
-        {
-            var decode = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(token);
-            if (decode.Uid != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
     }
 }

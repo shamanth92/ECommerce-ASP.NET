@@ -9,29 +9,46 @@ namespace ECommerceNextjs.Controllers
     public class OrderSummaryController: ControllerBase
     {
         public readonly OrderSummaryService _orderSummaryService = null!;
+        public readonly AuthenticationService _authService = null!;
 
-        public OrderSummaryController(OrderSummaryService orderSummaryService)
+        public OrderSummaryController(OrderSummaryService orderSummaryService, AuthenticationService authService)
         {
             _orderSummaryService = orderSummaryService;
+            _authService = authService;
         }
 
         [HttpPost]
-        public async Task<IActionResult> StoreOrderSummary(OrderSummaryModel orderSummary)
+        public async Task<IActionResult> StoreOrderSummary(OrderSummaryModel orderSummary, [FromHeader(Name = "Authorization")] string customHeaderValue)
         {
-            await _orderSummaryService.storeOrderSummary(orderSummary);
-            return CreatedAtAction("StoreOrderSummary", orderSummary);
-
+            var authToken = customHeaderValue.ToString().Replace("Bearer ", "").Trim();
+            var isValidToken = await _authService.checkAuthToken(authToken);
+            if (isValidToken)
+            {
+                await _orderSummaryService.storeOrderSummary(orderSummary);
+                return CreatedAtAction("StoreOrderSummary", orderSummary);
+            } else
+            {
+                return BadRequest("Bad Token");
+            }
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<OrderSummaryModel>>> GetOrders([FromQuery] string email)
+        public async Task<ActionResult<List<OrderSummaryModel>>> GetOrders([FromQuery] string email, [FromHeader(Name = "Authorization")] string customHeaderValue)
         {
-            var orders = await _orderSummaryService.GetOrders(email);
-            if (orders == null)
+            var authToken = customHeaderValue.ToString().Replace("Bearer ", "").Trim();
+            var isValidToken = await _authService.checkAuthToken(authToken);
+            if (isValidToken)
             {
-                return NotFound();
+                var orders = await _orderSummaryService.GetOrders(email);
+                if (orders == null)
+                {
+                    return NotFound();
+                }
+                return orders;
+            } else
+            {
+                return BadRequest("Bad Token");
             }
-            return orders;
         }
 
     }

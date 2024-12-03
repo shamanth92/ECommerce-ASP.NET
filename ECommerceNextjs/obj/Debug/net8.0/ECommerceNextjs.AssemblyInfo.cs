@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ECommerceNextjs")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+197cd80ebe4d6f56f573e1fcf575630247789f1c")]
 [assembly: System.Reflection.AssemblyProductAttribute("ECommerceNextjs")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ECommerceNextjs")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

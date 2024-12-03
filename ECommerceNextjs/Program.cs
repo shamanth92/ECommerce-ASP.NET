@@ -17,6 +17,7 @@ builder.Services.AddSingleton<AccountService>();
 builder.Services.AddSingleton<CheckoutCartService>();
 builder.Services.AddSingleton<FetchProductsService>();
 builder.Services.AddSingleton<OrderSummaryService>();
+builder.Services.AddSingleton<AuthenticationService>();
 builder.Services.AddHttpClient();
 
 FirebaseApp.Create(new AppOptions()
