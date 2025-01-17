@@ -1,6 +1,7 @@
 ﻿using ECommerceNextjs.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using System.Globalization;
 
 namespace ECommerceNextjs.Services
 {
@@ -19,6 +20,6 @@ namespace ECommerceNextjs.Services
             await _orderSummaryCollection.InsertOneAsync(orderSummary);
 
         public async Task<List<OrderSummaryModel>> GetOrders(string email) =>
-            await _orderSummaryCollection.Find(x => x.email == email).ToListAsync();
+            await _orderSummaryCollection.Find(x => x.email == email).Sort(Builders<OrderSummaryModel>.Sort.Descending("dateOrdered")).ToListAsync();
     }
 }
